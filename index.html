@@ -8,7 +8,6 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -18,48 +17,38 @@
         .container {
             text-align: center;
             background-color: white;
-            padding: 2rem;
+            padding: 3rem;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 15px 30px;
+            padding: 25px 50px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 10px;
-            transition: background-color 0.3s;
+            font-size: 20px;
+            transition: background-color 0.3s, transform 0.2s;
         }
         button:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
-        input {
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+        button:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>CA Search Tool</h1>
-        <p>Enter a CA or click the button to use your clipboard content</p>
-        <input type="text" id="caInput" placeholder="Enter CA here or use clipboard">
-        <br>
-        <button onclick="openTabsFromInput()">Use Input</button>
-        <button onclick="openTabsFromClipboard()">Use Clipboard</button>
+        <button onclick="openTabsFromClipboard()">Open Links</button>
     </div>
 
     <script>
         function openTabs(ca) {
             if (!ca) {
-                alert('Please enter a CA or copy one to your clipboard');
+                alert('Please copy a CA to your clipboard first');
                 return;
             }
             
@@ -72,18 +61,12 @@
             window.open(`https://jup.ag/swap/SOL-${ca}`, '_blank');
         }
 
-        function openTabsFromInput() {
-            const ca = document.getElementById('caInput').value;
-            openTabs(ca);
-        }
-
         async function openTabsFromClipboard() {
             try {
                 const ca = await navigator.clipboard.readText();
-                document.getElementById('caInput').value = ca;
                 openTabs(ca);
             } catch (err) {
-                alert('Unable to read clipboard. Please paste the CA manually.');
+                alert('Unable to read clipboard. Please ensure you have copied the CA.');
                 console.error('Failed to read clipboard:', err);
             }
         }
